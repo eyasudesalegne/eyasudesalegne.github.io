@@ -1,0 +1,8 @@
+title: "Eyasu Desalegne Beyene"
+description: "PhD Student in Biomedical Engineering | Neuroengineering | Computational Neuroscience | EEG/BCI | Closed-loop Neurostimulation"
+theme: minima
+
+header_pages:
+  - cv.md
+  - publications.md
+  - projects.md
