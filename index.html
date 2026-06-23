@@ -9,10 +9,38 @@
   <meta property="og:title" content="Eyasu Desalegne Beyene | Biomedical Engineering, NeuroAI & Medical Imaging" />
   <meta property="og:description" content="Biomedical engineering research portfolio covering NeuroAI, medical imaging, computational microscopy, biomedical instrumentation, books, and research software." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://eyasudesalegne.github.io/" />
+  <link rel="canonical" href="https://eyasudesalegne.github.io/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Eyasu Desalegne Beyene",
+    "url": "https://eyasudesalegne.github.io/",
+    "sameAs": [
+      "https://github.com/eyasudesalegne",
+      "https://orcid.org/0009-0000-3375-0834",
+      "https://www.linkedin.com/in/eyasu-desalegne-beyene-9673616b/"
+    ],
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Istanbul University-Cerrahpasa"
+    },
+    "knowsAbout": [
+      "Biomedical engineering",
+      "NeuroAI",
+      "Medical imaging AI",
+      "Computational microscopy",
+      "Fourier ptychographic microscopy",
+      "Biomedical instrumentation",
+      "Reproducible research software"
+    ]
+  }
+  </script>
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -29,11 +57,11 @@
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">Menu</button>
 
       <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#projects">Projects</a>
         <a href="#books">Books</a>
         <a href="#publications">Publications</a>
-        <a href="#timeline">Timeline</a>
         <a href="#contact">Contact</a>
         <button class="theme-toggle" type="button" aria-label="Toggle light and dark theme">◐</button>
       </div>
@@ -69,22 +97,10 @@
           <p>Istanbul University–Cerrahpaşa</p>
         </div>
         <div class="mini-grid">
-          <div>
-            <strong>Focus</strong>
-            <span>Medical AI + instrumentation</span>
-          </div>
-          <div>
-            <strong>Method</strong>
-            <span>Reproducible systems</span>
-          </div>
-          <div>
-            <strong>Output</strong>
-            <span>Software, papers, devices</span>
-          </div>
-          <div>
-            <strong>Open to</strong>
-            <span>Research collaboration</span>
-          </div>
+          <div><strong>Focus</strong><span>Medical AI + instrumentation</span></div>
+          <div><strong>Method</strong><span>Reproducible systems</span></div>
+          <div><strong>Output</strong><span>Software, papers, devices</span></div>
+          <div><strong>Open to</strong><span>Research collaboration</span></div>
         </div>
         <div class="profile-links">
           <a href="https://github.com/eyasudesalegne" target="_blank" rel="noreferrer">GitHub</a>
@@ -96,6 +112,40 @@
   </header>
 
   <main>
+    <section class="section-shell about-section reveal" id="about">
+      <div class="about-deck">
+        <article class="narrative-card">
+          <p class="eyebrow">About</p>
+          <h2>A research profile built between engineering, imaging, and systems thinking.</h2>
+          <p>
+            My work is shaped by a practical question: how can advanced biomedical technologies become more reproducible,
+            explainable, and accessible in real research environments? I approach this through medical imaging AI,
+            computational microscopy, neural simulation software, and biomedical instrumentation.
+          </p>
+          <p>
+            I am especially interested in systems that are not only technically impressive, but also inspectable: pipelines that
+            can be tested, repeated, explained, and improved by other researchers.
+          </p>
+        </article>
+
+        <aside class="current-card">
+          <p class="eyebrow">Currently building</p>
+          <ul class="current-list">
+            <li><span>01</span><strong>Fourier ptychographic microscopy</strong><small>LED-array acquisition, calibration, and GPU reconstruction.</small></li>
+            <li><span>02</span><strong>OCT medical AI</strong><small>Explainability, reliability, ablation, and model behavior auditing.</small></li>
+            <li><span>03</span><strong>SACS research software</strong><small>Reproducible multi-region circuit simulation with analytics and GUI support.</small></li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="stat-strip" aria-label="Portfolio summary">
+        <div><strong>4</strong><span>Core research directions</span></div>
+        <div><strong>6</strong><span>Featured projects</span></div>
+        <div><strong>3</strong><span>Writing categories</span></div>
+        <div><strong>1</strong><span>Integrated portfolio</span></div>
+      </div>
+    </section>
+
     <section class="section-shell intro reveal" id="work">
       <div class="section-heading">
         <p class="eyebrow">Research identity</p>
@@ -130,6 +180,28 @@
       </div>
     </section>
 
+    <section class="section-shell reveal principles-section" id="principles">
+      <div class="section-heading">
+        <p class="eyebrow">Research principles</p>
+        <h2>How I want the work to be judged</h2>
+        <p>These principles keep the portfolio professional and trustworthy: no exaggerated claims, no opaque pipelines, and no separation between theory and implementation.</p>
+      </div>
+      <div class="principle-grid">
+        <article class="principle-card">
+          <h3>Reproducible by design</h3>
+          <p>Projects should include clear configuration, versioned code, documented assumptions, and repeatable experiments wherever possible.</p>
+        </article>
+        <article class="principle-card">
+          <h3>Clinically cautious</h3>
+          <p>Medical AI should be evaluated with calibration, robustness, failure modes, and honest status labels rather than only headline accuracy.</p>
+        </article>
+        <article class="principle-card">
+          <h3>Accessible engineering</h3>
+          <p>Biomedical systems matter more when they can be built, understood, repaired, and adapted in constrained research settings.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="section-shell reveal" id="projects">
       <div class="section-heading split">
         <div>
@@ -151,6 +223,10 @@
           <div class="project-topline"><span>Research software</span><span>Manuscript</span></div>
           <h3>SACS — Schematic Multi-Region Circuit Simulation</h3>
           <p>A config-driven framework for reproducible neural-circuit simulation, analytics, GUI support, and provenance-aware experimentation.</p>
+          <ul class="project-details">
+            <li>Focus: multi-region schematic circuit simulation</li>
+            <li>Value: reproducible workflows, analytics, GUI, and documentation</li>
+          </ul>
           <div class="tag-row"><span>Python</span><span>NeuroAI</span><span>Simulation</span></div>
           <a class="text-link" href="https://github.com/eyasudesalegne/SACS" target="_blank" rel="noreferrer">View repository →</a>
         </article>
@@ -159,6 +235,10 @@
           <div class="project-topline"><span>Medical imaging AI</span><span>In progress</span></div>
           <h3>Predictive Object-Centric Transformer for Retinal OCT</h3>
           <p>Explainable OCT classification with attention, ablation, reliability analysis, and model-behavior auditing for medical AI.</p>
+          <ul class="project-details">
+            <li>Focus: retinal OCT classification and interpretability</li>
+            <li>Value: model auditing beyond accuracy-only reporting</li>
+          </ul>
           <div class="tag-row"><span>OCT</span><span>Explainability</span><span>Calibration</span></div>
           <a class="text-link" href="https://github.com/eyasudesalegne/poct-oct-experiment" target="_blank" rel="noreferrer">View repository →</a>
         </article>
@@ -167,6 +247,10 @@
           <div class="project-topline"><span>Computational microscopy</span><span>Active build</span></div>
           <h3>Fourier Ptychographic Microscopy Platform</h3>
           <p>An LED-array microscopy and reconstruction workflow for high-resolution computational imaging and blood-smear analysis.</p>
+          <ul class="project-details">
+            <li>Focus: LED geometry, optics, flat correction, and reconstruction</li>
+            <li>Value: practical bridge between hardware and computational imaging</li>
+          </ul>
           <div class="tag-row"><span>FPM</span><span>Optics</span><span>GPU reconstruction</span></div>
           <a class="text-link" href="#contact">Discuss collaboration →</a>
         </article>
@@ -175,6 +259,10 @@
           <div class="project-topline"><span>Biomedical device</span><span>MSc thesis</span></div>
           <h3>Affordable rTMS Device Direction</h3>
           <p>A low-cost neurotechnology design direction focused on making neuromodulation hardware more accessible for depression-related applications.</p>
+          <ul class="project-details">
+            <li>Focus: accessible neuromodulation hardware direction</li>
+            <li>Value: cost-aware biomedical device thinking</li>
+          </ul>
           <div class="tag-row"><span>rTMS</span><span>Neurotechnology</span><span>Hardware</span></div>
           <a class="text-link" href="#contact">Details on request →</a>
         </article>
@@ -183,6 +271,10 @@
           <div class="project-topline"><span>Computational neuroscience</span><span>Repository</span></div>
           <h3>GAD-Simulation</h3>
           <p>Brain-network simulation tooling for hypothesis-driven computational neuroscience and reproducible experimentation.</p>
+          <ul class="project-details">
+            <li>Focus: brain-network modeling and simulation tooling</li>
+            <li>Value: structured computational experimentation</li>
+          </ul>
           <div class="tag-row"><span>Python</span><span>Network modeling</span><span>Reproducibility</span></div>
           <a class="text-link" href="https://github.com/eyasudesalegne/GAD-Simulation" target="_blank" rel="noreferrer">View repository →</a>
         </article>
@@ -191,6 +283,10 @@
           <div class="project-topline"><span>Research synthesis</span><span>Writing</span></div>
           <h3>NeuroAI for Biomedical Engineering</h3>
           <p>A structured research direction connecting mechanistic insight, foundation models, medical imaging, and translational biomedical AI.</p>
+          <ul class="project-details">
+            <li>Focus: NeuroAI concepts for biomedical engineering</li>
+            <li>Value: connecting theory, AI systems, and biomedical application</li>
+          </ul>
           <div class="tag-row"><span>NeuroAI</span><span>Review</span><span>Clinical translation</span></div>
           <a class="text-link" href="#publications">See writing →</a>
         </article>
@@ -324,6 +420,20 @@
         <div class="skill-box"><h3>Neuroengineering</h3><p>Neural simulation, EEG/BCI concepts, neurostimulation, biomedical signal processing.</p></div>
         <div class="skill-box"><h3>Writing</h3><p>Manuscripts, technical notes, research proposals, long-form books, LaTeX documentation.</p></div>
         <div class="skill-box"><h3>Communication</h3><p>Research storytelling, visual explanation, teaching-oriented notes, academic portfolio design.</p></div>
+      </div>
+    </section>
+
+    <section class="section-shell reveal collaborate-section" id="collaborate">
+      <div class="section-heading">
+        <p class="eyebrow">Collaboration map</p>
+        <h2>Where collaboration makes sense</h2>
+        <p>These are the clearest areas where supervisors, labs, collaborators, or employers can understand how to work with me.</p>
+      </div>
+      <div class="collaboration-grid">
+        <article class="collaboration-card"><h3>Medical imaging AI</h3><p>OCT classification, explainability, reliability diagrams, ablation studies, and model evaluation workflows.</p></article>
+        <article class="collaboration-card"><h3>Computational microscopy</h3><p>LED-array design, image acquisition, FPM reconstruction, optical calibration, and microscopy pipeline testing.</p></article>
+        <article class="collaboration-card"><h3>Research software</h3><p>Config-driven frameworks, reproducible experiments, documentation, GUI-assisted tools, and scientific Python pipelines.</p></article>
+        <article class="collaboration-card"><h3>Biomedical instrumentation</h3><p>Low-cost device concepts, imaging hardware, neurotechnology, system integration, and engineering documentation.</p></article>
       </div>
     </section>
 
