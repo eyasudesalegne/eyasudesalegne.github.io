@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract biomedical research profile visual</title>
+  <desc id="desc">A sleek abstract portrait made from biomedical imaging, neural network, and microscopy-inspired shapes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="0.55" stop-color="#122747"/>
+      <stop offset="1" stop-color="#02050b"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1">
+      <stop offset="0" stop-color="#38d5ff"/>
+      <stop offset="1" stop-color="#f1d48f"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.22 0 0 0 0 0.84 0 0 0 0 1 0 0 0 .72 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect width="900" height="900" rx="70" fill="url(#bg)"/>
+  <circle cx="684" cy="176" r="120" fill="#38d5ff" opacity=".15"/>
+  <circle cx="196" cy="690" r="170" fill="#b79cff" opacity=".14"/>
+  <path d="M168 540C214 408 303 326 438 300c120-23 228 10 315 99" fill="none" stroke="#ffffff" stroke-opacity=".13" stroke-width="2"/>
+  <path d="M168 590c70-91 159-142 268-153 116-11 209 17 280 84" fill="none" stroke="#ffffff" stroke-opacity=".13" stroke-width="2"/>
+  <circle cx="450" cy="348" r="112" fill="none" stroke="url(#cyan)" stroke-width="9" opacity=".95" filter="url(#glow)"/>
+  <path d="M330 704c12-115 62-184 120-184s108 69 120 184" fill="none" stroke="url(#cyan)" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+  <g fill="#f7fbff" opacity=".85">
+    <circle cx="266" cy="232" r="7"/><circle cx="333" cy="198" r="5"/><circle cx="611" cy="258" r="6"/><circle cx="664" cy="344" r="5"/><circle cx="259" cy="465" r="5"/><circle cx="621" cy="590" r="7"/>
+  </g>
+  <g stroke="#38d5ff" stroke-opacity=".56" stroke-width="2">
+    <path d="M266 232l67-34 117 150 161-90 53 86"/>
+    <path d="M259 465l191-117 171 242"/>
+  </g>
+  <g fill="none" stroke="#f1d48f" stroke-opacity=".42" stroke-width="1.5">
+    <circle cx="450" cy="450" r="232"/><circle cx="450" cy="450" r="292"/>
+    <path d="M158 450h584M450 158v584"/>
+  </g>
+  <text x="60" y="824" fill="#f7fbff" fill-opacity=".72" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Biomedical AI · Imaging · Systems</text>
+</svg>
