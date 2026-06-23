@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Fault Lines book cover placeholder</title>
+  <desc id="desc">Minimal abstract cover placeholder.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#130916"/><stop offset=".55" stop-color="#261329"/><stop offset="1" stop-color="#050207"/></linearGradient>
+    <linearGradient id="accent" x1="0" x2="1"><stop stop-color="#f1d48f"/><stop offset="1" stop-color="#38d5ff"/></linearGradient>
+  </defs>
+  <rect width="720" height="1040" rx="34" fill="url(#bg)"/>
+  <path d="M188 150L355 365 285 478 430 640 340 895" fill="none" stroke="url(#accent)" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M438 130L350 300 462 415 395 560 520 770" fill="none" stroke="#f7fbff" stroke-opacity=".18" stroke-width="5"/>
+  <text x="70" y="118" fill="#f7fbff" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="7">BOOK PROJECT</text>
+  <text x="70" y="840" fill="#f7fbff" font-family="Georgia, serif" font-size="78" font-weight="700">Fault</text>
+  <text x="70" y="922" fill="#f7fbff" font-family="Georgia, serif" font-size="78" font-weight="700">Lines</text>
+  <text x="70" y="974" fill="#f7fbff" fill-opacity=".65" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Eyasu Desalegne Beyene</text>
+</svg>
