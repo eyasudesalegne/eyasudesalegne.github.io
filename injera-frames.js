@@ -16,8 +16,7 @@
     pointer-events:none;
     opacity:1;
     transform:scale(1.01);
-    transition:opacity .85s ease, transform 1.1s ease, filter .85s ease;
-    filter:saturate(1.04) contrast(1.02) brightness(.92);
+    filter:saturate(1.04) contrast(1.02) brightness(.93);
   `;
   stage.appendChild(frameCanvas);
 
@@ -45,67 +44,76 @@
     }
   }
 
-  function drawCover(image, progress = 0) {
-    resize();
+  function drawImageCover(image, alpha = 1) {
     const width = frameCanvas.width;
     const height = frameCanvas.height;
-    ctx.clearRect(0, 0, width, height);
-
     const scale = Math.max(width / image.width, height / image.height);
     const drawWidth = image.width * scale;
     const drawHeight = image.height * scale;
     const x = (width - drawWidth) / 2;
     const y = (height - drawHeight) / 2;
+    ctx.save();
+    ctx.globalAlpha = alpha;
     ctx.drawImage(image, x, y, drawWidth, drawHeight);
+    ctx.restore();
+  }
 
-    const vignette = ctx.createRadialGradient(width * 0.5, height * 0.46, width * 0.12, width * 0.5, height * 0.5, Math.max(width, height) * 0.64);
+  function applyCinematicGrade(progress = 0) {
+    const width = frameCanvas.width;
+    const height = frameCanvas.height;
+
+    const vignette = ctx.createRadialGradient(width * 0.5, height * 0.46, width * 0.12, width * 0.5, height * 0.5, Math.max(width, height) * 0.66);
     vignette.addColorStop(0, "rgba(0,0,0,0)");
-    vignette.addColorStop(0.62, "rgba(5,9,19,.10)");
-    vignette.addColorStop(1, "rgba(5,9,19,.68)");
+    vignette.addColorStop(0.62, "rgba(5,9,19,.08)");
+    vignette.addColorStop(1, "rgba(5,9,19,.64)");
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, width, height);
 
     const cinematic = ctx.createLinearGradient(0, 0, width, height);
-    cinematic.addColorStop(0, "rgba(43,183,255,.08)");
-    cinematic.addColorStop(0.48, "rgba(0,0,0,0)");
-    cinematic.addColorStop(1, "rgba(255,79,139,.11)");
+    cinematic.addColorStop(0, "rgba(43,183,255,.07)");
+    cinematic.addColorStop(0.52, "rgba(0,0,0,0)");
+    cinematic.addColorStop(1, "rgba(255,79,139,.10)");
     ctx.fillStyle = cinematic;
     ctx.fillRect(0, 0, width, height);
 
-    const glow = ctx.createRadialGradient(width * (0.5 + Math.sin(progress) * 0.04), height * 0.56, 0, width * 0.5, height * 0.56, width * 0.42);
-    glow.addColorStop(0, "rgba(246,211,139,.08)");
+    const glow = ctx.createRadialGradient(width * (0.5 + Math.sin(progress) * 0.035), height * 0.56, 0, width * 0.5, height * 0.56, width * 0.46);
+    glow.addColorStop(0, "rgba(246,211,139,.07)");
     glow.addColorStop(1, "rgba(246,211,139,0)");
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
   }
 
+  function easeInOutSine(x) {
+    return -(Math.cos(Math.PI * x) - 1) / 2;
+  }
+
+  function drawBlend(current, next, alpha, progress) {
+    resize();
+    ctx.clearRect(0, 0, frameCanvas.width, frameCanvas.height);
+    drawImageCover(current, 1);
+    drawImageCover(next, alpha);
+    applyCinematicGrade(progress);
+  }
+
   let frames = [];
   let raf = 0;
   let start = 0;
-  const frameDuration = 150;
-
-  function hideFrames() {
-    frameCanvas.style.opacity = "0";
-    frameCanvas.style.transform = "scale(1.06)";
-    frameCanvas.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
-    if (fallback) {
-      fallback.style.opacity = "0";
-      fallback.style.transform = "scale(1.06)";
-      fallback.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
-    }
-    cancelAnimationFrame(raf);
-  }
+  const holdDuration = 620;
+  const fadeDuration = 980;
+  const cycleDuration = holdDuration + fadeDuration;
 
   function animateFrameSequence(timestamp) {
     if (!start) start = timestamp;
     if (!frames.length) return;
-    if (stage.classList.contains("is-open")) {
-      hideFrames();
-      return;
-    }
+
     const elapsed = timestamp - start;
-    const index = Math.floor(elapsed / frameDuration) % frames.length;
-    drawCover(frames[index].image, elapsed / 1000);
+    const step = Math.floor(elapsed / cycleDuration) % frames.length;
+    const phase = elapsed % cycleDuration;
+    const nextStep = (step + 1) % frames.length;
+    const fadeRaw = Math.max(0, Math.min(1, (phase - holdDuration) / fadeDuration));
+    const alpha = easeInOutSine(fadeRaw);
+
+    drawBlend(frames[step].image, frames[nextStep].image, alpha, elapsed / 1600);
     raf = requestAnimationFrame(animateFrameSequence);
   }
 
@@ -129,23 +137,12 @@
     }
 
     if (fallback) fallback.style.opacity = "0";
-    drawCover(frames[0].image, 0);
+    drawBlend(frames[0].image, frames[1]?.image || frames[0].image, 0, 0);
     raf = requestAnimationFrame(animateFrameSequence);
   }
 
-  const observer = new MutationObserver(() => {
-    if (stage.classList.contains("is-open")) {
-      hideFrames();
-      window.setTimeout(() => {
-        frameCanvas.style.display = "none";
-        if (fallback) fallback.style.display = "none";
-      }, 950);
-    }
-  });
-  observer.observe(stage, { attributes: true, attributeFilter: ["class"] });
-
   window.addEventListener("resize", () => {
-    if (frames[0] && !stage.classList.contains("is-open")) drawCover(frames[0].image, 0);
+    if (frames[0]) drawBlend(frames[0].image, frames[1]?.image || frames[0].image, 0, 0);
   });
 
   init();
