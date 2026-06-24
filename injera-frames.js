@@ -1,5 +1,6 @@
 (() => {
   const stage = document.querySelector(".injera-stage");
+  const fallback = document.querySelector(".injera-frame-fallback");
   if (!stage || stage.dataset.framesAttached === "true") return;
   stage.dataset.framesAttached = "true";
 
@@ -11,7 +12,7 @@
     inset:0;
     width:100%;
     height:100%;
-    z-index:3;
+    z-index:4;
     pointer-events:none;
     opacity:1;
     transform:scale(1.01);
@@ -21,47 +22,16 @@
   stage.appendChild(frameCanvas);
 
   const ctx = frameCanvas.getContext("2d", { alpha: true });
-  const frameCount = 14;
-  const extensions = ["webp", "jpg", "jpeg", "png", "JPG", "JPEG", "PNG", "WEBP"];
-  const directories = ["assets", "assets/injera", "assets/frames", "assets/injera-frames"];
-  const nameVariants = (index) => {
-    const n = String(index);
-    const p = String(index).padStart(2, "0");
-    return [n, p, `frame-${n}`, `frame-${p}`, `injera-${n}`, `injera-${p}`];
-  };
-
-  function candidatePaths(index) {
-    const names = nameVariants(index);
-    const paths = [];
-    directories.forEach((dir) => {
-      names.forEach((name) => {
-        extensions.forEach((ext) => paths.push(`${dir}/${name}.${ext}`));
-      });
-    });
-    return paths;
-  }
+  const framePaths = Array.from({ length: 14 }, (_, index) => `assets/${index + 1}.png`);
 
   function loadImage(path) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.decoding = "async";
-      img.onload = () => resolve(img);
-      img.onerror = reject;
+      img.onload = () => resolve({ image: img, path });
+      img.onerror = () => reject(new Error(`Could not load ${path}`));
       img.src = path;
     });
-  }
-
-  async function loadFirst(index) {
-    const paths = candidatePaths(index);
-    for (const path of paths) {
-      try {
-        const image = await loadImage(path);
-        return { image, path };
-      } catch (_) {
-        // Try the next likely filename.
-      }
-    }
-    return null;
   }
 
   function resize() {
@@ -90,20 +60,20 @@
 
     const vignette = ctx.createRadialGradient(width * 0.5, height * 0.46, width * 0.12, width * 0.5, height * 0.5, Math.max(width, height) * 0.64);
     vignette.addColorStop(0, "rgba(0,0,0,0)");
-    vignette.addColorStop(0.63, "rgba(5,9,19,.14)");
-    vignette.addColorStop(1, "rgba(5,9,19,.78)");
+    vignette.addColorStop(0.62, "rgba(5,9,19,.10)");
+    vignette.addColorStop(1, "rgba(5,9,19,.68)");
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, width, height);
 
     const cinematic = ctx.createLinearGradient(0, 0, width, height);
-    cinematic.addColorStop(0, "rgba(43,183,255,.10)");
+    cinematic.addColorStop(0, "rgba(43,183,255,.08)");
     cinematic.addColorStop(0.48, "rgba(0,0,0,0)");
-    cinematic.addColorStop(1, "rgba(255,79,139,.13)");
+    cinematic.addColorStop(1, "rgba(255,79,139,.11)");
     ctx.fillStyle = cinematic;
     ctx.fillRect(0, 0, width, height);
 
     const glow = ctx.createRadialGradient(width * (0.5 + Math.sin(progress) * 0.04), height * 0.56, 0, width * 0.5, height * 0.56, width * 0.42);
-    glow.addColorStop(0, "rgba(246,211,139,.10)");
+    glow.addColorStop(0, "rgba(246,211,139,.08)");
     glow.addColorStop(1, "rgba(246,211,139,0)");
     ctx.fillStyle = glow;
     ctx.fillRect(0, 0, width, height);
@@ -112,16 +82,25 @@
   let frames = [];
   let raf = 0;
   let start = 0;
-  const frameDuration = 135;
+  const frameDuration = 150;
+
+  function hideFrames() {
+    frameCanvas.style.opacity = "0";
+    frameCanvas.style.transform = "scale(1.06)";
+    frameCanvas.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
+    if (fallback) {
+      fallback.style.opacity = "0";
+      fallback.style.transform = "scale(1.06)";
+      fallback.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
+    }
+    cancelAnimationFrame(raf);
+  }
 
   function animateFrameSequence(timestamp) {
     if (!start) start = timestamp;
     if (!frames.length) return;
     if (stage.classList.contains("is-open")) {
-      frameCanvas.style.opacity = "0";
-      frameCanvas.style.transform = "scale(1.06)";
-      frameCanvas.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
-      cancelAnimationFrame(raf);
+      hideFrames();
       return;
     }
     const elapsed = timestamp - start;
@@ -131,31 +110,35 @@
   }
 
   async function init() {
-    const loaded = [];
-    for (let i = 1; i <= frameCount; i += 1) {
-      const item = await loadFirst(i);
-      if (item) loaded.push(item);
-    }
+    const settled = await Promise.allSettled(framePaths.map(loadImage));
+    frames = settled
+      .filter((item) => item.status === "fulfilled")
+      .map((item) => item.value)
+      .sort((a, b) => {
+        const an = Number((a.path.match(/\/(\d+)\.png$/) || [])[1] || 0);
+        const bn = Number((b.path.match(/\/(\d+)\.png$/) || [])[1] || 0);
+        return an - bn;
+      });
 
-    if (!loaded.length) {
+    frameCanvas.dataset.loadedFrames = String(frames.length);
+    frameCanvas.dataset.expectedFrames = String(framePaths.length);
+
+    if (!frames.length) {
       frameCanvas.style.display = "none";
       return;
     }
 
-    frames = loaded;
-    frameCanvas.dataset.loadedFrames = String(frames.length);
-    frameCanvas.dataset.firstFrame = frames[0].path;
+    if (fallback) fallback.style.opacity = "0";
     drawCover(frames[0].image, 0);
     raf = requestAnimationFrame(animateFrameSequence);
   }
 
   const observer = new MutationObserver(() => {
     if (stage.classList.contains("is-open")) {
-      frameCanvas.style.opacity = "0";
-      frameCanvas.style.transform = "scale(1.06)";
-      frameCanvas.style.filter = "saturate(1.08) contrast(1.05) brightness(.55) blur(8px)";
+      hideFrames();
       window.setTimeout(() => {
         frameCanvas.style.display = "none";
+        if (fallback) fallback.style.display = "none";
       }, 950);
     }
   });
