@@ -32,32 +32,18 @@ const injeraMarkup = `
 
     <div class="injera-layout">
       <div class="injera-stage" aria-live="polite">
-        <button class="injera-side-view" type="button" aria-label="Flip the fresh injera into a top-view identity map">
-          <span class="injera-steam" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-          <span class="injera-heat" aria-hidden="true"></span>
-          <span class="injera-edge" aria-hidden="true"></span>
+        <canvas id="injeraCanvas" class="injera-canvas" aria-label="Interactive 3D injera identity map"></canvas>
+        <button class="injera-3d-start" type="button" aria-label="Flip the fresh injera into a top-view identity map">
           <span class="injera-instruction">Click the fresh injera</span>
         </button>
-
-        <div class="injera-top-view" aria-label="Top-view injera identity map">
-          <div class="injera-surface">
-            <button class="injera-bubble injera-center active" style="--x:50%;--y:50%;--s:1.08" data-title="Eyasu" data-text="At the center is one question: how can I build things that remain useful, honest, and human? My work moves between biomedical engineering, imaging, AI, software, and writing, but the center is the same: life, dignity, and clarity.">Eyasu</button>
-            <button class="injera-bubble" style="--x:50%;--y:18%;--s:.92" data-title="The researcher" data-text="This part is drawn to hidden patterns: disease in images, cells under a microscope, circuits in simulation, and the invisible structure behind biological systems.">Research</button>
-            <button class="injera-bubble" style="--x:75%;--y:30%;--s:.86" data-title="The builder" data-text="This is the engineering side: instruments, reconstruction pipelines, reproducible software, and systems that can be tested instead of only described.">Build</button>
-            <button class="injera-bubble" style="--x:79%;--y:58%;--s:.82" data-title="The writer" data-text="Writing lets me examine identity, trust, power, control, failure, and the human consequences of systems that people inherit but did not design.">Write</button>
-            <button class="injera-bubble" style="--x:62%;--y:78%;--s:.86" data-title="Human-centered technology" data-text="Technology should serve human life. It should strengthen judgment, widen access, and respect people instead of reducing them to data points or performance scores.">Human</button>
-            <button class="injera-bubble" style="--x:34%;--y:78%;--s:.84" data-title="Origin and belonging" data-text="Culture is not separate from science. The things we build carry where we come from, what we value, and who we hope the work will serve.">Origin</button>
-            <button class="injera-bubble" style="--x:21%;--y:58%;--s:.84" data-title="Seeing hidden life" data-text="Microscopy, OCT, and imaging are ways of seeing what ordinary vision cannot see. But the goal is not only to see more; it is to understand better.">Seeing</button>
-            <button class="injera-bubble" style="--x:25%;--y:31%;--s:.82" data-title="The future" data-text="The future I want to work toward is not colder or more automated. It is more accessible, more explainable, more careful, and more accountable to human life.">Future</button>
-          </div>
-        </div>
+        <span class="injera-loading">Loading 3D scene</span>
       </div>
 
       <article class="injera-story-panel">
         <p class="eyebrow">Click the injera</p>
         <h3 id="injeraStoryTitle">Fresh from the side</h3>
         <p id="injeraStoryText">The first view is simple: warmth, steam, and a line. When it turns, the surface becomes a map. Each bubble opens one part of the story.</p>
-        <p class="injera-story-hint">Hover bubbles to grow them. Click one to read that part.</p>
+        <p class="injera-story-hint">Hover bubbles to raise them. Click one to read that part.</p>
       </article>
     </div>
   </section>
@@ -112,6 +98,13 @@ if (main && !document.getElementById("injera-map")) {
   main.insertAdjacentHTML("afterbegin", injeraMarkup);
 }
 
+if (!document.querySelector('script[src="injera-3d.js"]')) {
+  const injeraScript = document.createElement("script");
+  injeraScript.type = "module";
+  injeraScript.src = "injera-3d.js";
+  document.body.appendChild(injeraScript);
+}
+
 const aboutSection = document.getElementById("about");
 if (aboutSection && !document.getElementById("values")) {
   aboutSection.insertAdjacentHTML("afterend", valuesMarkup);
@@ -135,58 +128,25 @@ if (navLinks && !navLinks.querySelector('a[href="#values"]')) {
 }
 
 const injeraStage = document.querySelector(".injera-stage");
-const injeraSide = document.querySelector(".injera-side-view");
 const injeraTitle = document.getElementById("injeraStoryTitle");
 const injeraText = document.getElementById("injeraStoryText");
-const injeraBubbles = document.querySelectorAll(".injera-bubble");
-const injeraSurface = document.querySelector(".injera-surface");
+
+function setInjeraStory(title, text) {
+  if (injeraTitle) injeraTitle.textContent = title;
+  if (injeraText) injeraText.textContent = text;
+}
 
 function openInjeraMap() {
   if (!injeraStage) return;
   injeraStage.classList.add("is-open");
-  if (injeraTitle && injeraText) {
-    injeraTitle.textContent = "The circles that made me";
-    injeraText.textContent = "Each circle is one part of the same person: origin, research, building, writing, seeing, and a human-centered future.";
-  }
+  setInjeraStory(
+    "The circles that made me",
+    "Each circle is one part of the same person: origin, research, building, writing, seeing, and a human-centered future."
+  );
 }
 
-if (injeraSide) {
-  injeraSide.addEventListener("click", openInjeraMap);
-}
-
-if (injeraStage) {
-  injeraStage.addEventListener("pointermove", (event) => {
-    const rect = injeraStage.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
-    const rotate = (x - 50) * 0.045;
-    injeraStage.style.setProperty("--injera-mx", `${x}%`);
-    injeraStage.style.setProperty("--injera-my", `${y}%`);
-    if (injeraSurface) {
-      injeraSurface.style.setProperty("--rz", `${rotate}deg`);
-    }
-  });
-
-  injeraStage.addEventListener("pointerleave", () => {
-    injeraStage.style.setProperty("--injera-mx", "50%");
-    injeraStage.style.setProperty("--injera-my", "50%");
-    if (injeraSurface) {
-      injeraSurface.style.setProperty("--rz", "0deg");
-    }
-  });
-}
-
-injeraBubbles.forEach((bubble) => {
-  bubble.addEventListener("click", () => {
-    openInjeraMap();
-    injeraBubbles.forEach((item) => item.classList.remove("active"));
-    bubble.classList.add("active");
-    if (injeraTitle && injeraText) {
-      injeraTitle.textContent = bubble.dataset.title || "A circle of the story";
-      injeraText.textContent = bubble.dataset.text || "This circle opens one part of the story.";
-    }
-  });
-});
+window.openInjeraMap = openInjeraMap;
+window.setInjeraStory = setInjeraStory;
 
 const navToggle = document.querySelector(".nav-toggle");
 
