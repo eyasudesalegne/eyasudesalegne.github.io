@@ -33,6 +33,7 @@ const injeraMarkup = `
     <div class="injera-layout">
       <div class="injera-stage" aria-live="polite">
         <canvas id="injeraCanvas" class="injera-canvas" aria-label="Interactive 3D injera identity map"></canvas>
+        <img class="injera-frame-fallback" src="assets/1.png" alt="Injera frame animation preview" loading="eager" decoding="async" />
         <button class="injera-3d-start" type="button" aria-label="Flip the fresh injera into a top-view identity map">
           <span class="injera-instruction">Click the fresh injera</span>
         </button>
