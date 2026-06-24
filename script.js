@@ -25,26 +25,22 @@ if (profileImage) {
 const injeraMarkup = `
   <section class="section-shell reveal injera-section" id="injera-map">
     <div class="section-heading">
-      <p class="eyebrow">Identity map</p>
+      <p class="eyebrow">Identity sequence</p>
       <h2>The circles that made me.</h2>
-      <p>A fresh injera begins as a simple line from the side. Click it and it turns into a circle: culture, science, writing, engineering, and human purpose arranged around one center.</p>
+      <p>A slow visual sequence built from injera frames: culture, care, memory, science, writing, and human purpose appearing one layer at a time.</p>
     </div>
 
     <div class="injera-layout">
-      <div class="injera-stage" aria-live="polite">
-        <canvas id="injeraCanvas" class="injera-canvas" aria-label="Interactive 3D injera identity map"></canvas>
+      <div class="injera-stage frame-only-stage" aria-live="polite">
         <img class="injera-frame-fallback" src="assets/1.png" alt="Injera frame animation preview" loading="eager" decoding="async" />
-        <button class="injera-3d-start" type="button" aria-label="Flip the fresh injera into a top-view identity map">
-          <span class="injera-instruction">Click the fresh injera</span>
-        </button>
-        <span class="injera-loading">Loading 3D scene</span>
+        <span class="injera-loading">Loading injera sequence</span>
       </div>
 
       <article class="injera-story-panel">
-        <p class="eyebrow">Click the injera</p>
-        <h3 id="injeraStoryTitle">Fresh from the side</h3>
-        <p id="injeraStoryText">The first view is simple: warmth, steam, and a line. When it turns, the surface becomes a map. Each bubble opens one part of the story.</p>
-        <p class="injera-story-hint">Hover bubbles to raise them. Click one to read that part.</p>
+        <p class="eyebrow">Frame story</p>
+        <h3 id="injeraStoryTitle">Built slowly, layer by layer</h3>
+        <p id="injeraStoryText">The animation now follows the frame sequence gently. Each transition is slower and softer, so the injera composition can feel calm, cultural, and easy for the eyes.</p>
+        <p class="injera-story-hint">The 3D circular map is removed for now.</p>
       </article>
     </div>
   </section>
@@ -99,13 +95,6 @@ if (main && !document.getElementById("injera-map")) {
   main.insertAdjacentHTML("afterbegin", injeraMarkup);
 }
 
-if (!document.querySelector('script[src="injera-3d.js"]')) {
-  const injeraScript = document.createElement("script");
-  injeraScript.type = "module";
-  injeraScript.src = "injera-3d.js";
-  document.body.appendChild(injeraScript);
-}
-
 if (!document.querySelector('script[src="injera-frames.js"]')) {
   const injeraFramesScript = document.createElement("script");
   injeraFramesScript.src = "injera-frames.js";
@@ -133,27 +122,6 @@ if (navLinks && !navLinks.querySelector('a[href="#values"]')) {
   const workLink = navLinks.querySelector('a[href="#work"]');
   navLinks.insertBefore(valuesLink, workLink || navLinks.firstElementChild);
 }
-
-const injeraStage = document.querySelector(".injera-stage");
-const injeraTitle = document.getElementById("injeraStoryTitle");
-const injeraText = document.getElementById("injeraStoryText");
-
-function setInjeraStory(title, text) {
-  if (injeraTitle) injeraTitle.textContent = title;
-  if (injeraText) injeraText.textContent = text;
-}
-
-function openInjeraMap() {
-  if (!injeraStage) return;
-  injeraStage.classList.add("is-open");
-  setInjeraStory(
-    "The circles that made me",
-    "Each circle is one part of the same person: origin, research, building, writing, seeing, and a human-centered future."
-  );
-}
-
-window.openInjeraMap = openInjeraMap;
-window.setInjeraStory = setInjeraStory;
 
 const navToggle = document.querySelector(".nav-toggle");
 
