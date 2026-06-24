@@ -10,6 +10,11 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
+const profileImage = document.querySelector(".profile-visual img");
+if (profileImage) {
+  profileImage.src = "./assets/profile_picture.png";
+}
+
 const navToggle = document.querySelector(".nav-toggle");
 const navLinks = document.getElementById("navLinks");
 
