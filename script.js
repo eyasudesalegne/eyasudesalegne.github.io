@@ -95,9 +95,9 @@ if (main && !document.getElementById("injera-map")) {
   main.insertAdjacentHTML("afterbegin", injeraMarkup);
 }
 
-if (!document.querySelector('script[src="injera-frames.js"]')) {
+if (!document.querySelector('script[src="injera-frames.js?v=fast-20260624-1"]')) {
   const injeraFramesScript = document.createElement("script");
-  injeraFramesScript.src = "injera-frames.js";
+  injeraFramesScript.src = "injera-frames.js?v=fast-20260624-1";
   document.body.appendChild(injeraFramesScript);
 }
 
