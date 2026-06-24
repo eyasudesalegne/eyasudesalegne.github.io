@@ -139,6 +139,7 @@ const injeraSide = document.querySelector(".injera-side-view");
 const injeraTitle = document.getElementById("injeraStoryTitle");
 const injeraText = document.getElementById("injeraStoryText");
 const injeraBubbles = document.querySelectorAll(".injera-bubble");
+const injeraSurface = document.querySelector(".injera-surface");
 
 function openInjeraMap() {
   if (!injeraStage) return;
@@ -151,6 +152,28 @@ function openInjeraMap() {
 
 if (injeraSide) {
   injeraSide.addEventListener("click", openInjeraMap);
+}
+
+if (injeraStage) {
+  injeraStage.addEventListener("pointermove", (event) => {
+    const rect = injeraStage.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const rotate = (x - 50) * 0.045;
+    injeraStage.style.setProperty("--injera-mx", `${x}%`);
+    injeraStage.style.setProperty("--injera-my", `${y}%`);
+    if (injeraSurface) {
+      injeraSurface.style.setProperty("--rz", `${rotate}deg`);
+    }
+  });
+
+  injeraStage.addEventListener("pointerleave", () => {
+    injeraStage.style.setProperty("--injera-mx", "50%");
+    injeraStage.style.setProperty("--injera-my", "50%");
+    if (injeraSurface) {
+      injeraSurface.style.setProperty("--rz", "0deg");
+    }
+  });
 }
 
 injeraBubbles.forEach((bubble) => {
