@@ -20,21 +20,12 @@ const valuesMarkup = `
     <div class="section-heading">
       <p class="eyebrow">Life, work & values</p>
       <h2>Seeing clearly, building carefully, staying human.</h2>
-      <p>This part of the portfolio explains the human question behind the technical work: why biomedical engineering, imaging, AI, software, and writing all belong to the same personal direction.</p>
     </div>
 
-    <div class="human-story-grid">
-      <article class="human-quote-card">
-        <span class="quote-mark" aria-hidden="true">“</span>
-        <blockquote>Technology should never ask a person to become less human in order to be understood.</blockquote>
-        <cite>— a principle behind my work</cite>
-      </article>
-
-      <article class="human-story-card">
-        <p class="eyebrow">The human question</p>
-        <p>I am drawn to systems that reveal what is hidden: a cell under a microscope, a disease pattern in an image, a brain circuit in a simulation, or a quiet failure inside society. But seeing is not enough. What matters is whether what we build helps people understand, heal, decide, and live with more dignity.</p>
-        <p>For me, good technology is not only accurate or powerful. It is careful. It explains itself. It remains accountable. It respects the patient, the researcher, the student, and the ordinary person who lives inside systems they did not design.</p>
-      </article>
+    <div class="human-story-card compact-human-story">
+      <p class="eyebrow">The human question</p>
+      <p>I am drawn to systems that reveal what is hidden: a cell under a microscope, a disease pattern in an image, a brain circuit in a simulation, or a quiet failure inside society. But seeing is not enough. What matters is whether what we build helps people understand, heal, decide, and live with more dignity.</p>
+      <p>For me, good technology is not only accurate or powerful. It is careful. It explains itself. It remains accountable. It respects the patient, the researcher, the student, and the ordinary person who lives inside systems they did not design.</p>
     </div>
 
     <div class="value-grid human-values">
