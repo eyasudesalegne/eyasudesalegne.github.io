@@ -13,28 +13,49 @@
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
+  object-position:center 18%;
 }
 
+.book-grid{
+  gap:22px;
+}
+
+.book-card{
+  grid-template-columns:minmax(360px,520px) minmax(0,1fr);
+  gap:28px;
+  align-items:center;
+  padding:22px;
+}
+
+.book-cover,
 .art-cover{
-  background:none;
+  background:#03060c;
   min-height:auto;
   padding:0;
-  place-items:stretch;
+  place-items:center;
   overflow:hidden;
   box-shadow:0 22px 70px rgba(0,0,0,.26);
 }
 
-.art-cover img{
+.book-card .art-cover{
+  width:100%;
+  aspect-ratio:1.42/1;
+  border-radius:20px;
+}
+
+.book-card .art-cover img{
   display:block;
   width:100%;
   height:100%;
-  min-height:250px;
-  object-fit:cover;
+  min-height:0;
+  object-fit:contain;
+  object-position:center center;
+  background:#03060c;
   transition:transform .35s ease;
 }
 
 .book-card:hover .art-cover img{
-  transform:scale(1.025);
+  transform:scale(1.012);
 }
 
 .visual-gallery .visual-tile{
@@ -82,7 +103,18 @@
   align-items:flex-end;
 }
 
+@media (max-width:980px){
+  .book-card{
+    grid-template-columns:1fr;
+  }
+
+  .book-card .art-cover{
+    aspect-ratio:1.42/1;
+  }
+}
+
 @media (max-width:760px){
   .profile-visual img{aspect-ratio:16/11}
-  .art-cover img{min-height:220px}
+  .book-card{padding:16px;gap:18px}
+  .book-card .art-cover{aspect-ratio:1.25/1}
 }
