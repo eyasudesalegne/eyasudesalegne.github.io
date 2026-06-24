@@ -105,6 +105,12 @@ if (!document.querySelector('script[src="injera-3d.js"]')) {
   document.body.appendChild(injeraScript);
 }
 
+if (!document.querySelector('script[src="injera-frames.js"]')) {
+  const injeraFramesScript = document.createElement("script");
+  injeraFramesScript.src = "injera-frames.js";
+  document.body.appendChild(injeraFramesScript);
+}
+
 const aboutSection = document.getElementById("about");
 if (aboutSection && !document.getElementById("values")) {
   aboutSection.insertAdjacentHTML("afterend", valuesMarkup);
