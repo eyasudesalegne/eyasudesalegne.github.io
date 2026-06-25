@@ -32,7 +32,7 @@ const injeraMarkup = `
 
     <div class="injera-layout">
       <div class="injera-stage frame-only-stage" aria-live="polite">
-        <img class="injera-frame-fallback" src="assets/1.webp" alt="Injera frame animation preview" loading="eager" decoding="async" />
+        <img class="injera-frame-fallback" src="assets/9.webp" alt="Injera frame animation preview" loading="eager" decoding="async" />
         <span class="injera-loading">Loading injera sequence</span>
       </div>
 
@@ -95,9 +95,9 @@ if (main && !document.getElementById("injera-map")) {
   main.insertAdjacentHTML("afterbegin", injeraMarkup);
 }
 
-if (!document.querySelector('script[src="injera-frames.js?v=webp-20260625-1"]')) {
+if (!document.querySelector('script[src="injera-frames.js?v=webp-20260625-2"]')) {
   const injeraFramesScript = document.createElement("script");
-  injeraFramesScript.src = "injera-frames.js?v=webp-20260625-1";
+  injeraFramesScript.src = "injera-frames.js?v=webp-20260625-2";
   document.body.appendChild(injeraFramesScript);
 }
 
