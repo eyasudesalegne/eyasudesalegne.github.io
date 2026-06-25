@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root{
+  --font-display:'Space Grotesk','Sora',Inter,system-ui,sans-serif;
+  --font-body:'IBM Plex Sans',Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-micro:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
+  --type-tight:-.035em;
+  --type-text:.002em;
+}
+
+html{font-size:15px;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--font-body);font-size:.94rem;line-height:1.48;letter-spacing:var(--type-text)}
+
+h1,h2,h3,.book-cover,.gallery-tile figcaption,.stat-strip strong{font-family:var(--font-display);letter-spacing:var(--type-tight);font-weight:700}
+h1{font-size:clamp(2.25rem,4.8vw,3.75rem);line-height:.98;max-width:860px}
+h2{font-size:clamp(1.65rem,3.1vw,2.65rem);line-height:1.02}
+h3{font-size:1.08rem;line-height:1.12;letter-spacing:-.025em}
+
+p,li,small,span{font-kerning:normal}
+p{line-height:1.48}
+strong{font-weight:700}
+
+.eyebrow,.status-label,.project-topline,.book-type,.timeline-item span,.card-number,.current-list span,.signal-row span,.tag-row span,.status-pill,.pub-status,.filter,.nav-links a,.theme-toggle,.nav-toggle,.button,.profile-links a,.text-link,.site-footer{font-family:var(--font-micro);letter-spacing:.075em}
+.eyebrow{font-size:.64rem;line-height:1.2;letter-spacing:.18em;margin-bottom:.58rem}
+.status-label{font-size:.62rem;letter-spacing:.16em}
+
+.brand{font-family:var(--font-display);font-size:.86rem;font-weight:700;letter-spacing:-.025em}
+.brand-mark{font-family:var(--font-micro);font-size:.66rem;font-weight:700;letter-spacing:.04em}
+.nav-links a,.theme-toggle,.nav-toggle{font-size:.66rem;font-weight:700;padding:.46rem .62rem;letter-spacing:.055em}
+
+.hero{padding-top:3.75rem;gap:1.55rem}
+.hero-text{font-size:1rem;line-height:1.5;max-width:660px;margin-top:1rem}
+.hero-actions,.contact-actions{margin-top:1.12rem}
+.signal-row{margin-top:1.05rem}
+.signal-row span,.tag-row span,.status-pill,.pub-status{font-size:.62rem;padding:.34rem .56rem;line-height:1.2}
+.button{font-size:.68rem;min-height:2.25rem;padding:.48rem .82rem;letter-spacing:.055em}
+
+.status-card h2{font-size:1.22rem;line-height:1.08}
+.status-card p:last-child{font-size:.82rem;line-height:1.36}
+.mini-grid strong{font-family:var(--font-display);font-size:.82rem;letter-spacing:-.018em}
+.mini-grid span{font-size:.76rem;line-height:1.35}
+.profile-links a,.text-link{font-size:.74rem;letter-spacing:.02em}
+
+.intro,.section-shell:not(.hero){padding-top:4.1rem}
+.section-heading{max-width:690px;margin-bottom:1.15rem}
+.section-heading p:not(.eyebrow){font-size:.94rem;line-height:1.46;margin-top:.65rem}
+.narrative-card p:not(.eyebrow){font-size:.92rem;line-height:1.48;margin-top:.72rem}
+.current-list strong{font-size:.88rem;line-height:1.16}
+.current-list small{font-size:.74rem;line-height:1.35}
+.stat-strip strong{font-size:1.7rem;letter-spacing:-.04em}
+.stat-strip span{font-size:.68rem;line-height:1.25;letter-spacing:.04em}
+
+.principle-card p,.collaboration-card p,.focus-card p,.project-card p,.book-card p,.publication-item p,.timeline-item p,.skill-box p,.contact-card p{font-size:.86rem;line-height:1.43;margin-top:.58rem}
+.focus-card h3,.principle-card h3,.collaboration-card h3,.skill-box h3,.timeline-item h3{font-size:1rem}
+.card-number{font-size:.7rem;margin-bottom:1.55rem}
+.filter{font-size:.66rem;padding:.46rem .62rem}
+
+.project-topline{font-size:.58rem;line-height:1.25;letter-spacing:.13em;margin-bottom:1rem}
+.project-card h3{font-size:1.13rem;line-height:1.08}
+.project-details{font-size:.78rem;line-height:1.4;margin-top:.68rem}
+.tag-row{margin:.82rem 0}
+
+.book-card{gap:1.25rem}
+.book-cover{font-size:1.42rem;line-height:1.03}
+.book-type{font-size:.62rem;letter-spacing:.15em}
+.book-card h3{font-size:1.22rem}
+.book-link{margin-top:.7rem}
+
+.publication-item h3{font-size:1.08rem;line-height:1.1;margin-top:.48rem}
+.gallery-tile figcaption{font-size:1.24rem;line-height:1.08}
+.timeline-item span{font-size:.65rem;margin-bottom:.78rem}
+.site-footer{font-size:.68rem;line-height:1.35;letter-spacing:.02em}
+
+.injera-section .section-heading h2{font-size:clamp(1.55rem,2.8vw,2.35rem)}
+.injera-story-panel h3{font-size:1.08rem}
+.injera-story-panel p{font-size:.84rem;line-height:1.45}
+.human-story-card p,.value-card p{font-size:.86rem;line-height:1.44}
+.value-card h3{font-size:1rem}
+
+@media (max-width:760px){
+  html{font-size:14.4px}
+  body{line-height:1.46}
+  h1{font-size:clamp(2rem,10vw,3rem);line-height:1}
+  h2{font-size:clamp(1.45rem,7vw,2.15rem)}
+  h3{font-size:1rem}
+  .hero{padding-top:3rem}
+  .hero-text,.section-heading p:not(.eyebrow),.narrative-card p:not(.eyebrow){font-size:.9rem}
+  .nav-links a,.theme-toggle{font-size:.7rem;padding:.58rem .65rem}
+  .brand{font-size:.82rem}
+  .intro,.section-shell:not(.hero){padding-top:3.35rem}
+}
