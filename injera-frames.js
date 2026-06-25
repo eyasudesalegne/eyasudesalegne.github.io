@@ -11,7 +11,7 @@
   stage.appendChild(canvas);
   const ctx = canvas.getContext('2d', { alpha: true });
 
-  const paths = Array.from({ length: 9 }, (_, i) => `assets/${i + 1}.webp`);
+  const paths = Array.from({ length: 9 }, (_, i) => `assets/${9 - i}.webp`);
   const frames = new Array(paths.length).fill(null);
   let started = false;
   let start = 0;
