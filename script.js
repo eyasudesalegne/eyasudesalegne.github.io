@@ -4,6 +4,13 @@ const savedTheme = localStorage.getItem('theme');
 if (savedTheme) root.dataset.theme = savedTheme;
 if (year) year.textContent = new Date().getFullYear();
 
+if (!document.querySelector('link[href^="typography.css"]')) {
+  const typography = document.createElement('link');
+  typography.rel = 'stylesheet';
+  typography.href = 'typography.css?v=compact-type-20260625-1';
+  document.head.appendChild(typography);
+}
+
 if (!document.querySelector('link[href="injera.css"]')) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
