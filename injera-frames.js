@@ -12,14 +12,14 @@
   const ctx = canvas.getContext('2d', { alpha: true });
 
   const paths = [
-    'assets/9.webp',
-    'assets/8.webp',
-    'assets/7.webp',
-    'assets/6.webp',
-    'assets/4.webp',
-    'assets/3.webp',
+    'assets/1.webp',
     'assets/2.webp',
-    'assets/1.webp'
+    'assets/3.webp',
+    'assets/4.webp',
+    'assets/5.webp',
+    'assets/6.webp',
+    'assets/7.webp',
+    'assets/8.webp'
   ];
   const frames = new Array(paths.length).fill(null);
   let started = false;
