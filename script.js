@@ -14,7 +14,7 @@ if (!document.querySelector('link[href^="typography.css"]')) {
 if (!document.querySelector('link[href^="hero-quote.css"]')) {
   const heroQuoteStyles = document.createElement('link');
   heroQuoteStyles.rel = 'stylesheet';
-  heroQuoteStyles.href = 'hero-quote.css?v=quote-hero-20260625-2';
+  heroQuoteStyles.href = 'hero-quote.css?v=quote-hero-20260625-3';
   document.head.appendChild(heroQuoteStyles);
 }
 
