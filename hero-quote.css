@@ -1,1 +1,94 @@
-.hero-quote-layout{grid-template-columns:minmax(340px,.86fr) minmax(0,1.14fr);gap:clamp(1.4rem,3vw,2.6rem);align-items:center}.hero-photo-left{margin:0;display:flex;justify-content:center;align-items:flex-end;background:transparent;border:0;box-shadow:none;overflow:visible;isolation:isolate}.hero-photo-left img{width:min(100%,40rem);height:auto;display:block;object-fit:contain;border:0;border-radius:0;background:transparent;box-shadow:none;mix-blend-mode:multiply;filter:brightness(1.32) contrast(1.06) saturate(1.08) drop-shadow(0 2.2rem 3.8rem rgba(0,0,0,.38))}.hero-right-stack{display:grid;gap:1rem;min-width:0}.hero-quote{font-size:clamp(1.55rem,3.2vw,2.9rem)!important;line-height:1.06!important;max-width:20ch;letter-spacing:-.047em}.hero-quote-author{margin:.62rem 0 0;color:var(--gold);font-family:var(--font-micro,monospace);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.hero-quote-layout .hero-text{max-width:45rem;font-size:.88rem;line-height:1.45}.hero-quote-layout .hero-panel{padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible}.hero-quote-layout .hero-panel:before,.hero-quote-layout .profile-visual{display:none!important}.hero-quote-layout .status-card,.hero-quote-layout .mini-grid div{background:rgba(12,25,49,.68);border-color:rgba(95,178,255,.16)}.hero-quote-layout .status-card h2{font-size:clamp(1.02rem,1.4vw,1.22rem)!important}@media(max-width:1050px){.hero-quote-layout{grid-template-columns:1fr;gap:1.6rem}.hero-photo-left{order:1;justify-content:flex-start}.hero-right-stack{order:2}.hero-photo-left img{width:min(100%,30rem)}}@media(max-width:760px){.hero-quote-layout{padding-top:2.5rem;gap:1.2rem}.hero-photo-left{justify-content:center}.hero-photo-left img{width:min(100%,23rem)}.hero-quote{font-size:clamp(1.35rem,7vw,2.15rem)!important;max-width:19ch}.hero-quote-layout .hero-text{font-size:.84rem}}
+/* refined hero */
+.hero-quote-layout {
+  grid-template-columns: minmax(380px, .92fr) minmax(0, 1.08fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+.hero-photo-left {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.hero-photo-left img {
+  width: min(100%, 46rem);
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-right-stack {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.hero-quote {
+  font-size: clamp(1.25rem, 2.35vw, 2.25rem) !important;
+  line-height: 1.11 !important;
+  max-width: 26ch;
+  letter-spacing: -.04em;
+}
+
+.hero-quote-author {
+  margin: .58rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-micro, monospace);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hero-quote-layout .hero-text {
+  max-width: 45rem;
+  font-size: .86rem;
+  line-height: 1.44;
+}
+
+.hero-quote-layout .hero-panel {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+.hero-quote-layout .hero-panel:before,
+.hero-quote-layout .profile-visual {
+  display: none !important;
+}
+
+.hero-quote-layout .status-card,
+.hero-quote-layout .mini-grid div {
+  background: rgba(12,25,49,.68);
+  border-color: rgba(95,178,255,.16);
+}
+
+.hero-quote-layout .status-card h2 {
+  font-size: clamp(1rem, 1.3vw, 1.18rem) !important;
+}
+
+@media (max-width:1050px) {
+  .hero-quote-layout { grid-template-columns: 1fr; gap: 1.45rem; }
+  .hero-photo-left { order: 1; justify-content: center; }
+  .hero-right-stack { order: 2; }
+  .hero-photo-left img { width: min(100%, 33rem); }
+}
+
+@media (max-width:760px) {
+  .hero-quote-layout { padding-top: 2.4rem; gap: 1.05rem; }
+  .hero-photo-left img { width: min(100%, 24rem); }
+  .hero-quote { font-size: clamp(1.15rem, 6vw, 1.85rem) !important; max-width: 24ch; }
+  .hero-quote-layout .hero-text { font-size: .82rem; }
+}
