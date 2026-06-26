@@ -14,7 +14,7 @@ if (!document.querySelector('link[href^="typography.css"]')) {
 if (!document.querySelector('link[href^="hero-quote.css"]')) {
   const heroQuoteStyles = document.createElement('link');
   heroQuoteStyles.rel = 'stylesheet';
-  heroQuoteStyles.href = 'hero-quote.css?v=quote-hero-20260625-3';
+  heroQuoteStyles.href = 'hero-quote.css?v=quote-hero-20260625-4';
   document.head.appendChild(heroQuoteStyles);
 }
 
@@ -26,7 +26,7 @@ if (!document.querySelector('link[href="injera.css"]')) {
 }
 
 const profileImage = document.querySelector('.profile-visual img');
-if (profileImage) profileImage.src = './assets/profile_picture.png';
+if (profileImage) profileImage.src = './assets/profile.png';
 
 function applyQuoteHero() {
   const hero = document.querySelector('.hero');
