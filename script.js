@@ -11,6 +11,13 @@ if (!document.querySelector('link[href^="typography.css"]')) {
   document.head.appendChild(typography);
 }
 
+if (!document.querySelector('link[href^="hero-quote.css"]')) {
+  const heroQuoteStyles = document.createElement('link');
+  heroQuoteStyles.rel = 'stylesheet';
+  heroQuoteStyles.href = 'hero-quote.css?v=quote-hero-20260625-1';
+  document.head.appendChild(heroQuoteStyles);
+}
+
 if (!document.querySelector('link[href="injera.css"]')) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
@@ -20,6 +27,48 @@ if (!document.querySelector('link[href="injera.css"]')) {
 
 const profileImage = document.querySelector('.profile-visual img');
 if (profileImage) profileImage.src = './assets/profile_picture.png';
+
+function applyQuoteHero() {
+  const hero = document.querySelector('.hero');
+  const heroCopy = document.querySelector('.hero-copy');
+  const heroPanel = document.querySelector('.hero-panel');
+  const profileVisual = document.querySelector('.profile-visual');
+  const img = document.querySelector('.profile-visual img');
+  if (!hero || !heroCopy || !heroPanel || !img || hero.classList.contains('hero-quote-layout')) return;
+
+  hero.classList.add('hero-quote-layout');
+
+  const photo = document.createElement('figure');
+  photo.className = 'hero-photo-left reveal';
+  photo.setAttribute('aria-label', 'Profile portrait');
+  photo.appendChild(img);
+
+  const right = document.createElement('div');
+  right.className = 'hero-right-stack';
+
+  hero.insertBefore(photo, hero.firstElementChild);
+  right.appendChild(heroCopy);
+  right.appendChild(heroPanel);
+  hero.appendChild(right);
+  if (profileVisual) profileVisual.remove();
+
+  const headline = heroCopy.querySelector('h1');
+  if (headline) {
+    headline.classList.add('hero-quote');
+    headline.innerHTML = '“Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less.”';
+    if (!heroCopy.querySelector('.hero-quote-author')) {
+      const author = document.createElement('p');
+      author.className = 'hero-quote-author';
+      author.textContent = '— Marie Curie';
+      headline.insertAdjacentElement('afterend', author);
+    }
+  }
+
+  const statusTitle = heroPanel.querySelector('.status-card h2');
+  if (statusTitle) statusTitle.textContent = 'Medical Imaging and NeuroAI Engineer';
+}
+
+applyQuoteHero();
 
 const injeraMarkup = `
   <section class="section-shell reveal injera-section" id="injera-map">
