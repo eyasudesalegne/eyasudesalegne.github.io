@@ -1,0 +1,1 @@
+(()=>{const a=document.getElementById('injeraStoryTitle');if(a)a.textContent='A life assembled in layers';const b=document.getElementById('injeraStoryText');if(b)b.textContent='Culture, memory, discipline, and care shape the work over time.';document.querySelectorAll('.injera-loading,.injera-story-hint').forEach(x=>x.remove());})();
