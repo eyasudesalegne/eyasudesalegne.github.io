@@ -1,1 +1,0 @@
-document.addEventListener('DOMContentLoaded',()=>{const s=document.getElementById('injera-map');if(!s)return;const h=s.querySelector('.injera-story-panel h3');if(h)h.textContent='A life assembled in layers';});
