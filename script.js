@@ -25,6 +25,13 @@ if (!document.querySelector('link[href="injera.css"]')) {
   document.head.appendChild(link);
 }
 
+if (!document.querySelector('link[href^="compact-books.css"]')) {
+  const booksStyle = document.createElement('link');
+  booksStyle.rel = 'stylesheet';
+  booksStyle.href = 'compact-books.css?v=books-compact-1';
+  document.head.appendChild(booksStyle);
+}
+
 const profileImage = document.querySelector('.profile-visual img');
 if (profileImage) profileImage.src = './assets/profile.png';
 
@@ -75,18 +82,16 @@ const injeraMarkup = `
     <div class="section-heading">
       <p class="eyebrow">Identity sequence</p>
       <h2>The circles that made me.</h2>
-      <p>A slow visual sequence built from injera frames: culture, care, memory, science, writing, and human purpose appearing one layer at a time.</p>
+      <p>A visual reflection on culture, memory, curiosity, discipline, and becoming, one layer at a time.</p>
     </div>
     <div class="injera-layout">
       <div class="injera-stage frame-only-stage" aria-live="polite">
-        <img class="injera-frame-fallback" src="assets/1.webp" alt="Injera frame animation preview" loading="eager" decoding="async" />
-        <span class="injera-loading">Loading injera sequence</span>
+        <img class="injera-frame-fallback" src="assets/1.webp" alt="Injera-inspired visual sequence" loading="eager" decoding="async" />
       </div>
       <article class="injera-story-panel">
-        <p class="eyebrow">Frame story</p>
-        <h3 id="injeraStoryTitle">Built slowly, layer by layer</h3>
-        <p id="injeraStoryText">The animation now follows the optimized WebP frame sequence from frame 1 to frame 8.</p>
-        <p class="injera-story-hint">Using optimized WebP frames from assets.</p>
+        <p class="eyebrow">Meaning</p>
+        <h3 id="injeraStoryTitle">A life assembled in layers</h3>
+        <p id="injeraStoryText">Identity is rarely formed all at once. It grows through experience, relationships, culture, discipline, and the values we choose to keep.</p>
       </article>
     </div>
   </section>`;
@@ -108,7 +113,7 @@ const valuesMarkup = `
       <article class="value-card"><span>03</span><h3>To stay close to life</h3><p>The point of engineering is human life, dignity, access, and care.</p></article>
       <article class="value-card"><span>04</span><h3>To write against forgetting</h3><p>Writing helps me examine identity, trust, power, memory, and the systems that shape people.</p></article>
     </div>
-    <div class="life-photo-grid" aria-label="Future photo story placeholders">
+    <div class="life-photo-grid" aria-label="Life and work themes">
       <figure class="life-photo-card life-card-one"><figcaption>Life outside the lab</figcaption></figure>
       <figure class="life-photo-card life-card-two"><figcaption>Work that stays human</figcaption></figure>
       <figure class="life-photo-card life-card-three"><figcaption>Books, memory, and meaning</figcaption></figure>
@@ -118,9 +123,9 @@ const valuesMarkup = `
 const main = document.querySelector('main');
 if (main && !document.getElementById('injera-map')) main.insertAdjacentHTML('afterbegin', injeraMarkup);
 
-if (!document.querySelector('script[src="injera-frames.js?v=webp-20260625-4"]')) {
+if (!document.querySelector('script[src="injera-frames.js?v=webp-20260625-6"]')) {
   const s = document.createElement('script');
-  s.src = 'injera-frames.js?v=webp-20260625-4';
+  s.src = 'injera-frames.js?v=webp-20260625-6';
   document.body.appendChild(s);
 }
 
