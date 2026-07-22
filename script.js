@@ -461,28 +461,8 @@ if (brainCanvas) {
     const angle = reducedBrainMotion ? 0 : Math.sin(brainFrame * .008) * .2;
     const projected = brainPoints.map((point) => projectBrainPoint(point, angle, centerX, centerY, scale));
 
-    brainEdges.forEach(([aIndex, bIndex]) => {
-      const a = projected[aIndex];
-      const b = projected[bIndex];
-      const depth = Math.max(0, Math.min(1, (a.z + b.z + 1.5) / 3));
-      brainContext.beginPath();
-      brainContext.moveTo(a.x, a.y);
-      brainContext.lineTo(b.x, b.y);
-      const region = brainPoints[aIndex].region;
-      const regionStrength = region === 'cerebrum' ? 0 : .065;
-      brainContext.strokeStyle = `rgba(22,74,155,${.075 + depth * .17 + regionStrength})`;
-      brainContext.lineWidth = region === 'outline' || region === 'fissure' ? 1.05 : region === 'stem' ? 1.05 : .58;
-      brainContext.stroke();
-    });
-
-    projected.forEach((point, index) => {
-      const blink = .48 + Math.sin(brainFrame * .025 + brainPoints[index].phase) * .28;
-      const regionStrength = brainPoints[index].region === 'cerebrum' ? 0 : .08;
-      brainContext.fillStyle = `rgba(27,102,176,${.22 + blink * .38 + regionStrength})`;
-      brainContext.beginPath();
-      brainContext.arc(point.x, point.y, .75 + point.perspective * .65, 0, Math.PI * 2);
-      brainContext.fill();
-    });
+    // The supplied anatomical neural-brain artwork provides the mesh itself.
+    // Canvas remains responsible only for the living BCI pulse and lightning.
 
     const chipPulse = reducedBrainMotion ? .65 : .55 + Math.sin(brainFrame * .055) * .35;
     const chipSize = smallBrainScreen ? 6 : 8;
