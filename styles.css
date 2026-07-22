@@ -234,3 +234,22 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
 @media (prefers-reduced-motion: reduce) {
   .ambient-brain-visual { animation: none; }
 }
+
+/* Genuine WebGL brain: replaces the earlier flat reference and 2D sketch. */
+.ambient-brain,
+.ambient-brain-visual { display: none; }
+.brain-3d {
+  position: fixed;
+  z-index: 0;
+  right: 7px;
+  bottom: 32px;
+  width: 190px;
+  height: 160px;
+  pointer-events: none;
+  opacity: .72;
+  filter: drop-shadow(0 0 11px rgba(0, 173, 255, .16));
+}
+
+@media (max-width: 680px) {
+  .brain-3d { right: 1px; bottom: 30px; width: 132px; height: 112px; opacity: .62; }
+}
