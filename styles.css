@@ -33,6 +33,25 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
 }
 .ambient-brain { position: fixed; z-index: 0; inset: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: .58; }
+.ambient-brain-visual {
+  position: fixed;
+  z-index: 0;
+  right: 7px;
+  bottom: 40px;
+  width: 170px;
+  height: auto;
+  pointer-events: none;
+  opacity: .38;
+  mix-blend-mode: screen;
+  transform-origin: 50% 55%;
+  filter: saturate(.82) drop-shadow(0 0 8px rgba(31, 115, 203, .12));
+  animation: brain-breathe 7s ease-in-out infinite;
+}
+
+@keyframes brain-breathe {
+  0%, 100% { transform: rotate(-1.2deg) scale(.985); opacity: .34; }
+  50% { transform: rotate(1.2deg) scale(1.015); opacity: .43; }
+}
 .site-header,main,.footer { position: relative; z-index: 1; }
 a { color: inherit; }
 img { display: block; max-width: 100%; }
@@ -209,4 +228,9 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
   .contact-inner { margin-inline: -18px; padding-inline: 28px; }
   .footer { padding-block: 28px; }
   .ambient-brain { opacity: .42; }
+  .ambient-brain-visual { right: 4px; bottom: 32px; width: 120px; opacity: .34; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-brain-visual { animation: none; }
 }
