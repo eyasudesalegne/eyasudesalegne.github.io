@@ -5,8 +5,8 @@ const canvas = document.getElementById('brain3d');
 if (canvas) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(31, 1, .1, 30);
-  camera.position.set(0, 0, 6.2);
+  const camera = new THREE.PerspectiveCamera(29, 1, .1, 30);
+  camera.position.set(0, .02, 6.8);
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
   renderer.setClearColor(0x000000, 0);
@@ -14,98 +14,164 @@ if (canvas) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const brain = new THREE.Group();
-  brain.rotation.set(-.08, -.42, -.04);
+  brain.rotation.set(-.05, -.12, -.015);
+  brain.scale.setScalar(.92);
   scene.add(brain);
 
   const cyan = 0x00d9ff;
   const electricBlue = 0x087cff;
+  const paleCyan = 0xa8fbff;
   const violet = 0xaa74ff;
 
-  function deformGeometry(geometry, seed, ridgeStrength = .095) {
-    const position = geometry.attributes.position;
-    const v = new THREE.Vector3();
-    for (let i = 0; i < position.count; i += 1) {
-      v.fromBufferAttribute(position, i);
-      const ridge = 1
-        + Math.sin(v.x * 8.2 + seed) * ridgeStrength
-        + Math.sin(v.y * 10.7 - seed * 1.3) * ridgeStrength * .72
-        + Math.cos((v.x + v.y + v.z) * 7.4 + seed) * ridgeStrength * .48;
-      v.multiplyScalar(ridge);
-      position.setXYZ(i, v.x, v.y, v.z);
+  function foldedHemisphere(side) {
+    const widthSegments = 40;
+    const heightSegments = 28;
+    const positions = [];
+    const indices = [];
+
+    for (let iy = 0; iy <= heightSegments; iy += 1) {
+      const v = iy / heightSegments;
+      const phi = v * Math.PI;
+      for (let ix = 0; ix <= widthSegments; ix += 1) {
+        const u = ix / widthSegments;
+        const theta = u * Math.PI * 2;
+        const sx = Math.sin(phi) * Math.cos(theta);
+        const sy = Math.cos(phi);
+        const sz = Math.sin(phi) * Math.sin(theta);
+
+        // Irregular cortical folding layered over a clearly anatomical lobe.
+        const fold = 1
+          + .055 * Math.sin(theta * 5 + phi * 4.2 + side)
+          + .035 * Math.sin(theta * 9 - phi * 6.3)
+          + .022 * Math.cos(theta * 13 + phi * 3.1);
+        const crown = 1 + .08 * Math.max(0, sy);
+        const lowerTaper = sy < -.45 ? 1 + (sy + .45) * .18 : 1;
+
+        positions.push(
+          side * .59 + sx * .72 * fold,
+          .17 + sy * 1.02 * fold * crown,
+          sz * .70 * fold * lowerTaper
+        );
+      }
     }
-    position.needsUpdate = true;
+
+    for (let iy = 0; iy < heightSegments; iy += 1) {
+      for (let ix = 0; ix < widthSegments; ix += 1) {
+        const a = ix + (widthSegments + 1) * iy;
+        const b = ix + (widthSegments + 1) * (iy + 1);
+        indices.push(a, b, a + 1, b, b + 1, a + 1);
+      }
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setIndex(indices);
     geometry.computeVertexNormals();
     return geometry;
   }
 
-  function neuralVolume(geometry, scale, position, seed, opacity = .31) {
-    deformGeometry(geometry, seed);
-    geometry.scale(scale.x, scale.y, scale.z);
-
-    const shell = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+  function addNeuralSurface(geometry, opacity = .29) {
+    const group = new THREE.Group();
+    group.add(new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
       color: electricBlue,
       transparent: true,
-      opacity: .075,
+      opacity: .055,
       depthWrite: false,
       side: THREE.DoubleSide
-    }));
-    const wires = new THREE.LineSegments(new THREE.WireframeGeometry(geometry), new THREE.LineBasicMaterial({
+    })));
+    group.add(new THREE.LineSegments(new THREE.WireframeGeometry(geometry), new THREE.LineBasicMaterial({
       color: cyan,
       transparent: true,
       opacity,
       depthWrite: false,
       blending: THREE.AdditiveBlending
-    }));
-    const nodes = new THREE.Points(geometry, new THREE.PointsMaterial({
-      color: 0x8ff6ff,
-      size: .021,
+    })));
+    group.add(new THREE.Points(geometry, new THREE.PointsMaterial({
+      color: paleCyan,
+      size: .016,
       transparent: true,
-      opacity: .78,
+      opacity: .66,
       depthWrite: false,
       blending: THREE.AdditiveBlending
-    }));
-    const volume = new THREE.Group();
-    volume.add(shell, wires, nodes);
-    volume.position.copy(position);
-    brain.add(volume);
-    return volume;
+    })));
+    brain.add(group);
+    return group;
   }
 
-  // Two folded hemispheres form the cortex. They overlap from the lateral
-  // view, then separate visibly as the real 3D object rotates.
-  neuralVolume(new THREE.IcosahedronGeometry(1, 4), new THREE.Vector3(1.48, 1.02, .69), new THREE.Vector3(-.1, .18, .27), .7);
-  neuralVolume(new THREE.IcosahedronGeometry(1, 4), new THREE.Vector3(1.48, 1.02, .69), new THREE.Vector3(-.1, .18, -.27), 2.4);
+  addNeuralSurface(foldedHemisphere(-1));
+  addNeuralSurface(foldedHemisphere(1));
 
-  // Anatomical anchors: posterior cerebellum and descending brainstem.
-  const cerebellum = neuralVolume(new THREE.IcosahedronGeometry(1, 3), new THREE.Vector3(.62, .43, .58), new THREE.Vector3(.75, -.7, 0), 4.8, .38);
-  cerebellum.rotation.z = -.12;
-  const stemGeometry = new THREE.CylinderGeometry(.16, .11, .88, 9, 4, false);
-  stemGeometry.rotateZ(-.12);
-  const stem = neuralVolume(stemGeometry, new THREE.Vector3(1, 1, 1), new THREE.Vector3(.15, -1.02, 0), 1.2, .44);
-  stem.rotation.z = -.08;
+  // Dark central sulcus keeps the two hemispheres legible throughout rotation.
+  const fissureCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0, 1.25, .18),
+    new THREE.Vector3(-.025, .72, .73),
+    new THREE.Vector3(.02, .04, .78),
+    new THREE.Vector3(0, -.62, .58)
+  ]);
+  const fissure = new THREE.Mesh(
+    new THREE.TubeGeometry(fissureCurve, 28, .027, 5, false),
+    new THREE.MeshBasicMaterial({ color: 0x075ca8, transparent: true, opacity: .8, depthWrite: false })
+  );
+  brain.add(fissure);
+
+  // Bright curved gyri make the surface read as cortex instead of a generic globe.
+  function addGyrus(side, y, phase, tilt = 0) {
+    const points = [];
+    for (let i = 0; i <= 18; i += 1) {
+      const t = i / 18;
+      const x = side * (.16 + t * 1.01);
+      const arch = Math.sin(t * Math.PI);
+      points.push(new THREE.Vector3(
+        x,
+        y + arch * (.18 + tilt) + Math.sin(t * Math.PI * 3 + phase) * .055,
+        .70 * arch + .18
+      ));
+    }
+    const curve = new THREE.CatmullRomCurve3(points);
+    const line = new THREE.Mesh(
+      new THREE.TubeGeometry(curve, 44, .012, 4, false),
+      new THREE.MeshBasicMaterial({ color: paleCyan, transparent: true, opacity: .58, blending: THREE.AdditiveBlending })
+    );
+    brain.add(line);
+  }
+
+  [-.58, -.27, .04, .35, .66].forEach((y, index) => {
+    addGyrus(-1, y, index * .8, index === 3 ? .08 : 0);
+    addGyrus(1, y, index * .8 + .55, index === 2 ? .07 : 0);
+  });
+
+  // Posterior cerebellum and descending stem complete the anatomical silhouette.
+  const cerebellumGeometry = new THREE.SphereGeometry(.48, 18, 12);
+  cerebellumGeometry.scale(1.28, .72, .92);
+  const cerebellum = addNeuralSurface(cerebellumGeometry, .42);
+  cerebellum.position.set(.48, -.78, -.34);
+
+  const stemGeometry = new THREE.CylinderGeometry(.13, .10, .72, 8, 4, false);
+  const stem = addNeuralSurface(stemGeometry, .46);
+  stem.position.set(.10, -1.03, -.13);
+  stem.rotation.z = -.16;
 
   // Blinking BCI core.
   const chipMaterial = new THREE.MeshBasicMaterial({ color: cyan, transparent: true, opacity: .9, blending: THREE.AdditiveBlending });
-  const chip = new THREE.Mesh(new THREE.BoxGeometry(.18, .18, .18), chipMaterial);
-  const chipEdges = new THREE.LineSegments(new THREE.EdgesGeometry(chip.geometry), new THREE.LineBasicMaterial({ color: 0xc8ffff }));
-  chip.add(chipEdges);
-  chip.position.set(-.02, .04, 0);
+  const chip = new THREE.Mesh(new THREE.BoxGeometry(.17, .17, .17), chipMaterial);
+  chip.add(new THREE.LineSegments(new THREE.EdgesGeometry(chip.geometry), new THREE.LineBasicMaterial({ color: 0xd9ffff })));
+  chip.position.set(0, .06, .12);
   brain.add(chip);
 
   const arcs = [];
   for (let arcIndex = 0; arcIndex < 4; arcIndex += 1) {
     const points = [];
     const end = new THREE.Vector3(
-      (arcIndex < 2 ? -1 : 1) * (.62 + arcIndex * .14),
-      .5 - arcIndex * .32,
-      (arcIndex % 2 ? -1 : 1) * .36
+      (arcIndex % 2 ? -1 : 1) * (.58 + arcIndex * .11),
+      .58 - arcIndex * .34,
+      .48
     );
     for (let step = 0; step <= 7; step += 1) {
       const t = step / 7;
       points.push(new THREE.Vector3(
-        end.x * t + Math.sin(step * 5.3 + arcIndex) * .035,
-        .04 + (end.y - .04) * t + Math.cos(step * 4.1) * .025,
-        end.z * t + Math.sin(step * 3.7) * .025
+        end.x * t + Math.sin(step * 5.3 + arcIndex) * .032,
+        .06 + (end.y - .06) * t + Math.cos(step * 4.1) * .024,
+        .12 + (end.z - .12) * t + Math.sin(step * 3.7) * .022
       ));
     }
     const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({
@@ -137,8 +203,9 @@ if (canvas) {
   function animate(time = 0) {
     const seconds = time * .001;
     if (!reducedMotion) {
-      brain.rotation.y = -.42 + seconds * .17 + pointerX * .22;
-      brain.rotation.x += ((-.08 - pointerY * .12) - brain.rotation.x) * .025;
+      // Limited turn preserves the recognizable brain silhouette while remaining genuinely 3D.
+      brain.rotation.y = -.12 + Math.sin(seconds * .24) * .42 + pointerX * .16;
+      brain.rotation.x += ((-.05 - pointerY * .08) - brain.rotation.x) * .025;
     }
     const pulse = .62 + Math.sin(seconds * 4.8) * .28;
     chip.scale.setScalar(.88 + pulse * .28);
