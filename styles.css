@@ -61,6 +61,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-intro strong { color: var(--ink); font-weight: 600; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 35px; }
 .button { min-height: 48px; display: inline-flex; align-items: center; gap: 9px; border-radius: 5px; padding: 12px 19px; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform .2s ease, background .2s ease; }
+.button { position: relative; overflow: hidden; isolation: isolate; }
+.button::after { content: ""; position: absolute; z-index: 2; inset: -35% auto -35% -45%; width: 28%; pointer-events: none; background: linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent); transform: translateX(-180%) skewX(-18deg); transition: transform .72s cubic-bezier(.2,.7,.2,1); }
+.button:hover::after { transform: translateX(620%) skewX(-18deg); }
 .button:hover { transform: translateY(-2px); }
 .button-primary { background: var(--blue); color: white; }
 .button-primary:hover { background: var(--blue-dark); }
@@ -141,6 +144,10 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
 .footer p { margin: 0; }
 .footer a { text-decoration: none; }
 
+.cursor-shine { --shine-x: 50%; --shine-y: 50%; transition: color .28s ease, filter .28s ease; }
+.cursor-shine:hover { color: transparent; background-image: radial-gradient(circle 115px at var(--shine-x) var(--shine-y),#31aeb0 0%,#1768c4 38%,var(--ink) 78%); background-clip: text; -webkit-background-clip: text; filter: drop-shadow(0 5px 16px rgba(22,74,155,.08)); }
+.contact .cursor-shine:hover { background-image: radial-gradient(circle 125px at var(--shine-x) var(--shine-y),#78e0d5 0%,#8db6f1 38%,#ffffff 78%); }
+
 .reveal { opacity: 1; transform: none; }
 .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .65s ease, transform .65s ease; }
 .js .reveal.visible { opacity: 1; transform: none; }
@@ -148,6 +155,8 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   .reveal { opacity: 1; transform: none; }
+  .button::after { display: none; }
+  .cursor-shine:hover { color: inherit; background: none; filter: none; }
 }
 
 @media (max-width: 900px) {
