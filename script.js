@@ -202,3 +202,29 @@ if (networkCanvas && hero) {
   resizeNetwork();
   drawNetwork();
 }
+
+const shineTargets = document.querySelectorAll([
+  '.hero h1',
+  '.about-content h2',
+  '.section-intro h2',
+  '.project h3',
+  '.horizon-item h3',
+  '.publication h3',
+  '.book-list span',
+  '.contact h2'
+].join(','));
+
+shineTargets.forEach((element) => {
+  element.classList.add('cursor-shine');
+  element.addEventListener('pointermove', (event) => {
+    const bounds = element.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+    element.style.setProperty('--shine-x', `${Math.max(0, Math.min(100, x))}%`);
+    element.style.setProperty('--shine-y', `${Math.max(0, Math.min(100, y))}%`);
+  });
+  element.addEventListener('pointerleave', () => {
+    element.style.setProperty('--shine-x', '50%');
+    element.style.setProperty('--shine-y', '50%');
+  });
+});
