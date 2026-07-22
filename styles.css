@@ -241,15 +241,25 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
 .brain-3d {
   position: fixed;
   z-index: 0;
-  right: 7px;
-  bottom: 32px;
-  width: 190px;
-  height: 160px;
+  right: 18px;
+  bottom: 18px;
+  top: auto;
+  left: auto;
+  width: 152px;
+  height: 128px;
   pointer-events: none;
-  opacity: .72;
-  filter: drop-shadow(0 0 11px rgba(0, 173, 255, .16));
+  opacity: .70;
+  filter: drop-shadow(0 0 9px rgba(0, 173, 255, .15));
 }
 
 @media (max-width: 680px) {
-  .brain-3d { right: 1px; bottom: 30px; width: 132px; height: 112px; opacity: .62; }
+  .brain-3d {
+    right: 7px;
+    bottom: 14px;
+    top: auto;
+    left: auto;
+    width: 108px;
+    height: 92px;
+    opacity: .60;
+  }
 }
