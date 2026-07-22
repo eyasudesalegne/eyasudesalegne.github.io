@@ -32,6 +32,8 @@ body::before {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
 }
+.ambient-brain { position: fixed; z-index: 0; inset: 0; width: 100vw; height: 100vh; pointer-events: none; opacity: .58; }
+.site-header,main,.footer { position: relative; z-index: 1; }
 a { color: inherit; }
 img { display: block; max-width: 100%; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -147,6 +149,8 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
 .cursor-shine { --shine-x: 50%; --shine-y: 50%; transition: color .28s ease, filter .28s ease; }
 .cursor-shine:hover { color: transparent; background-image: radial-gradient(circle 115px at var(--shine-x) var(--shine-y),#31aeb0 0%,#1768c4 38%,var(--ink) 78%); background-clip: text; -webkit-background-clip: text; filter: drop-shadow(0 5px 16px rgba(22,74,155,.08)); }
 .contact .cursor-shine:hover { background-image: radial-gradient(circle 125px at var(--shine-x) var(--shine-y),#78e0d5 0%,#8db6f1 38%,#ffffff 78%); }
+.brain-struck { color: var(--blue) !important; filter: drop-shadow(0 0 9px rgba(49,174,176,.34)) !important; transition: color .18s ease,filter .18s ease !important; }
+.contact .brain-struck { color: #8de0d7 !important; }
 
 .reveal { opacity: 1; transform: none; }
 .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .65s ease, transform .65s ease; }
@@ -157,6 +161,7 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
   .reveal { opacity: 1; transform: none; }
   .button::after { display: none; }
   .cursor-shine:hover { color: inherit; background: none; filter: none; }
+  .brain-struck { color: inherit !important; filter: none !important; }
 }
 
 @media (max-width: 900px) {
@@ -203,4 +208,5 @@ h2 { margin: 0; font: 600 clamp(34px, 4.3vw, 56px)/1.13 var(--display); letter-s
   .contact { padding-top: 25px; }
   .contact-inner { margin-inline: -18px; padding-inline: 28px; }
   .footer { padding-block: 28px; }
+  .ambient-brain { opacity: .42; }
 }
