@@ -244,31 +244,92 @@ if (brainCanvas) {
   let nextStrike = 260;
   let strike = null;
 
-  // Two offset ellipsoids form a lightweight, recognizably brain-like mesh.
+  function addMeshPoint(point) {
+    brainPoints.push({ ...point, phase: Math.random() * Math.PI * 2 });
+    return brainPoints.length - 1;
+  }
+
+  // Build each cerebral hemisphere from an ordered surface grid. The gap at
+  // x=0 creates the longitudinal fissure; low-amplitude deformation creates
+  // cortical lobes and gyri without turning the brain into a noisy sphere.
+  const latitudeSteps = smallBrainScreen ? 7 : 9;
+  const depthSteps = smallBrainScreen ? 8 : 11;
   for (const side of [-1, 1]) {
-    for (let i = 0; i < (smallBrainScreen ? 30 : 48); i += 1) {
-      const longitude = Math.random() * Math.PI * 2;
-      const latitude = Math.asin(Math.random() * 2 - 1);
-      const crown = .9 + Math.cos(latitude) * .12;
-      brainPoints.push({
-        x: side * .22 + Math.cos(latitude) * Math.cos(longitude) * .57,
-        y: Math.sin(latitude) * .7 * crown + .05,
-        z: Math.cos(latitude) * Math.sin(longitude) * .52,
-        side,
-        phase: Math.random() * Math.PI * 2
-      });
+    const grid = [];
+    for (let latitudeIndex = 0; latitudeIndex < latitudeSteps; latitudeIndex += 1) {
+      const latitude = -1.34 + (latitudeIndex / (latitudeSteps - 1)) * 2.68;
+      const row = [];
+      for (let depthIndex = 0; depthIndex < depthSteps; depthIndex += 1) {
+        const depthAngle = -1.46 + (depthIndex / (depthSteps - 1)) * 2.92;
+        const cosLatitude = Math.cos(latitude);
+        const rawDepth = Math.sin(depthAngle) * cosLatitude;
+        const frontLobe = 1 + Math.max(0, rawDepth) * .12;
+        const corticalFold = 1
+          + Math.sin(depthAngle * 4.2 + latitude * 2.7 + side * .8) * .055
+          + Math.cos(latitude * 5.3 - depthAngle * 2.1) * .035;
+        let y = Math.sin(latitude) * .7;
+        if (y < 0) y *= .76; // flatter temporal underside
+        y += Math.cos(depthAngle) * cosLatitude * .055; // rounded crown
+        row.push(addMeshPoint({
+          x: side * (.055 + Math.cos(depthAngle) * cosLatitude * .66 * corticalFold),
+          y: y + .08,
+          z: rawDepth * .57 * frontLobe * corticalFold,
+          side,
+          region: 'cerebrum'
+        }));
+      }
+      grid.push(row);
+    }
+    for (let row = 0; row < grid.length; row += 1) {
+      for (let column = 0; column < grid[row].length; column += 1) {
+        if (column + 1 < grid[row].length) brainEdges.push([grid[row][column], grid[row][column + 1]]);
+        if (row + 1 < grid.length) brainEdges.push([grid[row][column], grid[row + 1][column]]);
+        if (row + 1 < grid.length && column + 1 < grid[row].length && (row + column) % 2 === 0) {
+          brainEdges.push([grid[row][column], grid[row + 1][column + 1]]);
+        }
+      }
     }
   }
 
-  for (let i = 0; i < brainPoints.length; i += 1) {
-    const candidates = [];
-    for (let j = i + 1; j < brainPoints.length; j += 1) {
-      const a = brainPoints[i];
-      const b = brainPoints[j];
-      const distance = Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
-      if (distance < .43 && (a.side === b.side || Math.abs(a.x - b.x) < .22)) candidates.push({ j, distance });
+  // A smaller ridged cerebellum sits below and behind the cerebral mass.
+  const cerebellumRows = smallBrainScreen ? 4 : 5;
+  const cerebellumColumns = smallBrainScreen ? 7 : 9;
+  const cerebellumGrid = [];
+  for (let row = 0; row < cerebellumRows; row += 1) {
+    const latitude = -1.18 + (row / (cerebellumRows - 1)) * 2.36;
+    const currentRow = [];
+    for (let column = 0; column < cerebellumColumns; column += 1) {
+      const longitude = (column / cerebellumColumns) * Math.PI * 2;
+      const ridge = 1 + Math.sin(longitude * 4) * .06;
+      currentRow.push(addMeshPoint({
+        x: Math.cos(latitude) * Math.cos(longitude) * .33 * ridge,
+        y: -.42 + Math.sin(latitude) * .23,
+        z: -.34 + Math.cos(latitude) * Math.sin(longitude) * .27,
+        side: 0,
+        region: 'cerebellum'
+      }));
     }
-    candidates.sort((a, b) => a.distance - b.distance).slice(0, 3).forEach(({ j }) => brainEdges.push([i, j]));
+    cerebellumGrid.push(currentRow);
+  }
+  for (let row = 0; row < cerebellumGrid.length; row += 1) {
+    for (let column = 0; column < cerebellumGrid[row].length; column += 1) {
+      brainEdges.push([cerebellumGrid[row][column], cerebellumGrid[row][(column + 1) % cerebellumColumns]]);
+      if (row + 1 < cerebellumGrid.length) brainEdges.push([cerebellumGrid[row][column], cerebellumGrid[row + 1][column]]);
+    }
+  }
+
+  // The short brainstem gives the lower silhouette an anatomical anchor.
+  let previousStemPoint = null;
+  for (let step = 0; step < 5; step += 1) {
+    const stemPoint = addMeshPoint({
+      x: Math.sin(step * 1.3) * .025,
+      y: -.5 - step * .075,
+      z: -.09 - step * .018,
+      side: 0,
+      region: 'stem'
+    });
+    if (previousStemPoint !== null) brainEdges.push([previousStemPoint, stemPoint]);
+    previousStemPoint = stemPoint;
   }
 
   function resizeBrainCanvas() {
@@ -369,14 +430,17 @@ if (brainCanvas) {
       brainContext.beginPath();
       brainContext.moveTo(a.x, a.y);
       brainContext.lineTo(b.x, b.y);
-      brainContext.strokeStyle = `rgba(22,74,155,${.07 + depth * .15})`;
-      brainContext.lineWidth = .55;
+      const region = brainPoints[aIndex].region;
+      const regionStrength = region === 'cerebrum' ? 0 : .045;
+      brainContext.strokeStyle = `rgba(22,74,155,${.075 + depth * .17 + regionStrength})`;
+      brainContext.lineWidth = region === 'stem' ? 1.05 : .58;
       brainContext.stroke();
     });
 
     projected.forEach((point, index) => {
       const blink = .48 + Math.sin(brainFrame * .025 + brainPoints[index].phase) * .28;
-      brainContext.fillStyle = `rgba(27,102,176,${.22 + blink * .38})`;
+      const regionStrength = brainPoints[index].region === 'cerebrum' ? 0 : .08;
+      brainContext.fillStyle = `rgba(27,102,176,${.22 + blink * .38 + regionStrength})`;
       brainContext.beginPath();
       brainContext.arc(point.x, point.y, .75 + point.perspective * .65, 0, Math.PI * 2);
       brainContext.fill();
