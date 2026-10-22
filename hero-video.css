@@ -1,13 +1,13 @@
 /* Optional, low-distraction video layer behind the existing hero content. */
 .hero-with-video { position: relative; isolation: isolate; overflow: hidden; }
 .hero-video-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; border-radius: inherit; }
-.hero-background-video { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .26; filter: saturate(.85); }
-.hero-video-layer::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(245,243,237,.94) 0%, rgba(245,243,237,.77) 52%, rgba(245,243,237,.68) 100%); }
+.hero-background-video { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 1; filter: saturate(1.05); }
+.hero-video-layer::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(245,243,237,.72) 0%, rgba(245,243,237,.34) 48%, rgba(245,243,237,.10) 100%); }
 .hero-with-video .portrait { position: relative; }
 .hero-with-video .portrait-frame img { object-fit: cover; object-position: center 45%; }
 @media (max-width: 720px) {
-  .hero-background-video { opacity: .2; }
-  .hero-video-layer::after { background: rgba(245,243,237,.83); }
+  .hero-background-video { opacity: 1; }
+  .hero-video-layer::after { background: rgba(245,243,237,.28); }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-background-video { display: none; }
